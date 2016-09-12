@@ -14,7 +14,7 @@ namespace CheckoutKata9
             if (UoM != UnitOfMeasure.Each)
             {
                 Console.Write("How many {0} are being bought:", UoM);
-                UnitQuantity = float.Parse(Console.ReadLine());
+                UnitQuantity = decimal.Parse(Console.ReadLine());
             }
             else
             {
@@ -24,8 +24,8 @@ namespace CheckoutKata9
 
         public string Description { get; set; }
         public char SKU { get; set; }
-        public float UnitPrice { get; set; }
-        public float UnitQuantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal UnitQuantity { get; set; }
 
         public UnitOfMeasure UoM { get; set; }
 

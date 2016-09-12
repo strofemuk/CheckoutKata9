@@ -43,7 +43,10 @@
   <ItemGroup>
     <Compile Include="BaggedItem.cs" />
     <Compile Include="CheckOut.cs" />
+    <Compile Include="ICheckOut.cs" />
+    <Compile Include="IItem.cs" />
     <Compile Include="PricingRules\BasePricingRule.cs" />
+    <Compile Include="PricingRules\IPricingRule.cs" />
     <Compile Include="PricingRules\XForN.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />

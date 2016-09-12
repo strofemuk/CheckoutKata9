@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9
 {
-    public class CheckOut
+    public class CheckOut : CheckoutKata9.ICheckOut
     {
-        public CheckOut(List<PricingRules.BasePricingRule> pricingRules)
+        public CheckOut(List<PricingRules.IPricingRule> pricingRules)
         {
             PricingRules = pricingRules;
-            BaggedItems = new List<BaggedItem>();
+            BaggedItems = new List<IItem>();
         }
 
-        public List<BaggedItem> BaggedItems { get; private set; }
-        public List<PricingRules.BasePricingRule> PricingRules { get; private set; }
+        public List<IItem> BaggedItems { get; private set; }
+        public List<PricingRules.IPricingRule> PricingRules { get; private set; }
         
         public void Scan(char sku)
         {
@@ -25,13 +25,14 @@ namespace CheckoutKata9
             });
         }
 
-        public void Scan(string skus)
+        public decimal Scan(string skus)
         {
             BaggedItems.Clear();
             foreach (char sku in skus)
             {
                 Scan(sku);
             }
+            return this.Total();
         }
 
         public string Receipt()
@@ -69,21 +70,21 @@ namespace CheckoutKata9
             return returnString.ToString();
         }
 
-        public float Total() 
+        public decimal Total() 
         { 
-            float total = 0.0f;
-
+            decimal total = 0.0M;
+                        
             PricingRules.ForEach(rule =>
             {
                 rule.CalculatePrice(BaggedItems);
             });
 
-            foreach (BaggedItem item in BaggedItems)
+            foreach (IItem item in BaggedItems)
             {
                 total += item.UnitTotal;
             }
 
-            return total;
+            return decimal.Round(total, 2, MidpointRounding.AwayFromZero);
         }
 
         private Product GetProduct(char sku)
@@ -91,15 +92,15 @@ namespace CheckoutKata9
             switch (sku)
             {
                 case 'A': 
-                    return new Product() { SKU = 'A', Description = "Drink", UnitPrice = 0.50f };
+                    return new Product() { SKU = 'A', Description = "Drink", UnitPrice = 0.50M };
                 case 'B':
-                    return new Product() { SKU = 'B', Description = "Bread", UnitPrice = 0.30f };
+                    return new Product() { SKU = 'B', Description = "Bread", UnitPrice = 0.30M };
                 case 'C':
-                    return new Product() { SKU = 'C', Description = "Bagel", UnitPrice = 0.20f };
+                    return new Product() { SKU = 'C', Description = "Bagel", UnitPrice = 0.20M };
                 case 'D':
-                    return new Product() { SKU = 'D', Description = "Toast", UnitPrice = 0.15f };
+                    return new Product() { SKU = 'D', Description = "Toast", UnitPrice = 0.15M };
                 case 'E':
-                    return new Product(UnitOfMeasure.Pound) { SKU = 'E', Description = "Steak", UnitPrice = 6.99f };
+                    return new Product(UnitOfMeasure.Pound) { SKU = 'E', Description = "Steak", UnitPrice = 6.99M };
                 default:
                     throw new ArgumentException(string.Format("SKU {0} does not exist! ", sku));
             }

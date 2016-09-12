@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9.PricingRules
 {
-    class XForN : BasePricingRule
+    public class XForN : BasePricingRule, IPricingRule
     {
-        public XForN(char applyToSKU, int quantity, float specialPrice) 
+        public XForN(char applyToSKU, int quantity, decimal specialPrice) 
             : base(applyToSKU)
         {
             Quantity = quantity;
@@ -16,9 +16,9 @@ namespace CheckoutKata9.PricingRules
         }
 
         public int Quantity { get; private set; }
-        public float SpecialPrice { get; private set; }
+        public decimal SpecialPrice { get; private set; }
         
-        public override void CalculatePrice(List<BaggedItem> baggedItems)
+        public override void CalculatePrice(List<IItem> baggedItems)
         {
             int countOfItems = baggedItems.Count(g => g.Product.SKU == this.ApplyToSKU);
 

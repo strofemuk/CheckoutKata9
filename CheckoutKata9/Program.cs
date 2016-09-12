@@ -10,14 +10,14 @@ namespace CheckoutKata9
     {
         static void Main(string[] args)
         {
-            List<PricingRules.BasePricingRule> pricingRules = new List<PricingRules.BasePricingRule>();
-            pricingRules.Add(new PricingRules.XForN('A',3, 1.30f));
-            pricingRules.Add(new PricingRules.XForN('B',2, 0.45f));
+            List<PricingRules.IPricingRule> pricingRules = new List<PricingRules.IPricingRule>();
+            pricingRules.Add(new PricingRules.XForN('A',3, 1.30M));
+            pricingRules.Add(new PricingRules.XForN('B',2, 0.45M));
             pricingRules.Add(new PricingRules.BasePricingRule('C'));
             pricingRules.Add(new PricingRules.BasePricingRule('D'));
             pricingRules.Add(new PricingRules.BasePricingRule('E'));
 
-            CheckOut checkOut = new CheckOut(pricingRules);
+            ICheckOut checkOut = new CheckOut(pricingRules);
             checkOut.Scan("CDBAE"); 
 
             Console.WriteLine("The total for CDBA is: {0}", checkOut.Total().ToString("c2"));

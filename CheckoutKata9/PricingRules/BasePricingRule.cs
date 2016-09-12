@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9.PricingRules
 {
-    public class BasePricingRule
+    public class BasePricingRule : PricingRules.IPricingRule
     {
         public BasePricingRule(char applyToSKU)
         {
@@ -15,7 +15,7 @@ namespace CheckoutKata9.PricingRules
 
         public char ApplyToSKU { get; private set; }
 
-        public virtual void CalculatePrice(List<BaggedItem> baggedItems)
+        public virtual void CalculatePrice(List<IItem> baggedItems)
         {
             baggedItems.Where(item => item.Product.SKU == ApplyToSKU)
                 .ToList()
