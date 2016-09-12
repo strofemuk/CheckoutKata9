@@ -29,20 +29,20 @@ namespace UnitTests
         [TestMethod]
         public void TestPrice()
         {
-            Assert.AreEqual(_checkOut.Scan("A"), .5M);
-            Assert.AreEqual(_checkOut.Scan("AB"), .8M);
-            Assert.AreEqual(_checkOut.Scan("CDBA"), 1.15M);
+            Assert.AreEqual(.5M,_checkOut.Scan("A"));
+            Assert.AreEqual(.8M, _checkOut.Scan("AB"));
+            Assert.AreEqual(1.15M, _checkOut.Scan("CDBA"));
 
-            Assert.AreEqual(_checkOut.Scan("AA"), 1.00M);
-            Assert.AreEqual(_checkOut.Scan("AAA"), 1.30M);
-            Assert.AreEqual(_checkOut.Scan("AAAA"), 1.80M);
-            Assert.AreEqual(_checkOut.Scan("AAAAA"), 2.30M);
-            Assert.AreEqual(_checkOut.Scan("AAAAAA"), 2.60M);
+            Assert.AreEqual(1.00M, _checkOut.Scan("AA"));
+            Assert.AreEqual(1.30M, _checkOut.Scan("AAA"));
+            Assert.AreEqual(1.80M, _checkOut.Scan("AAAA"));
+            Assert.AreEqual(2.30M, _checkOut.Scan("AAAAA"));
+            Assert.AreEqual(2.60M, _checkOut.Scan("AAAAAA"));
 
-            Assert.AreEqual(_checkOut.Scan("AAAB"), 1.60M);
-            Assert.AreEqual(_checkOut.Scan("AAABB"), 1.75M);
-            Assert.AreEqual(_checkOut.Scan("AAABBD"), 1.90M);
-            Assert.AreEqual(_checkOut.Scan("DABABA"), 1.90M);
+            Assert.AreEqual(1.60M, _checkOut.Scan("AAAB"));
+            Assert.AreEqual(1.75M, _checkOut.Scan("AAABB"));
+            Assert.AreEqual(1.90M, _checkOut.Scan("AAABBD"));
+            Assert.AreEqual(1.90M, _checkOut.Scan("DABABA"));
         }
 
         [TestMethod]
