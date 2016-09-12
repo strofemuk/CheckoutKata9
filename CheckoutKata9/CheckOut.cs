@@ -35,53 +35,18 @@ namespace CheckoutKata9
             return this.Total();
         }
 
-        public string Receipt()
-        {
-            StringBuilder returnString = new StringBuilder();
-
-            var lines = from baggedItems in BaggedItems
-                        group baggedItems by new { baggedItems.Product.SKU, LineTotal = baggedItems.UnitTotal } into baggedGroup
-                        select new
-                        {
-                            SKU = baggedGroup.Key.SKU,
-                            Description = baggedGroup.First().Product.Description,
-                            UnitPrice = baggedGroup.First().Product.UoM == UnitOfMeasure.Each ? baggedGroup.Key.LineTotal : baggedGroup.First().Product.UnitPrice,
-                            Quantity = baggedGroup.First().Product.UoM == UnitOfMeasure.Each ? baggedGroup.Count() : baggedGroup.First().Product.UnitQuantity,
-                            UOM = baggedGroup.First().Product.UoM.ToString(),
-                            Sum = baggedGroup.Sum(g => g.UnitTotal),
-                            Rule = baggedGroup.First().PricingRule
-                        };
-            returnString.AppendLine("SKU\t| Desc\t\t| Price\t| QTY\t| UOM\t| TOTAL\t| RULE");
-            returnString.AppendLine("-----------------------------------------------------------------");
-
-            foreach (var line in lines)
-            {
-                returnString.AppendLine(string.Format("{0}\t| {1}\t\t| {2}\t| {3}\t| {4}\t| {5}\t|{6}",
-                    line.SKU,
-                    line.Description,
-                    line.UnitPrice.ToString("c2"),
-                    line.Quantity,
-                    line.UOM,
-                    line.Sum.ToString("c2"),
-                    line.Rule));
-            }
-            returnString.AppendLine("-----------------------------------------------------------------");
-            returnString.Append(string.Format("\t\t\t\t\tTotal:\t  {0}", Total().ToString("c2")));
-            return returnString.ToString();
-        }
-
         public decimal Total() 
         { 
             decimal total = 0.0M;
-                        
-            PricingRules.ForEach(rule =>
-            {
-                rule.CalculatePrice(BaggedItems);
-            });
 
-            foreach (IItem item in BaggedItems)
+            var skuCounts = from b in BaggedItems
+                            group b by b.Product.SKU into g
+                            join rule in PricingRules on g.Key equals rule.ApplyToSKU
+                            select new { sku = g.Key, count = g.Count(), pricingRule = rule };
+
+            foreach (var sku in skuCounts)
             {
-                total += item.UnitTotal;
+                total += sku.pricingRule.SubTotal(BaggedItems, GetProduct(sku.sku).UnitPrice);
             }
 
             return decimal.Round(total, 2, MidpointRounding.AwayFromZero);

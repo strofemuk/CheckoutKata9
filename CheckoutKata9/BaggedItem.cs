@@ -11,6 +11,6 @@ namespace CheckoutKata9
     {
         public Product Product { get; set; }
         public decimal UnitTotal { get; set; }
-        public string PricingRule { get; set; }
+        public string PricingRuleDescription { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CheckoutKata9.PricingRules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,26 +11,18 @@ namespace CheckoutKata9
     {
         static void Main(string[] args)
         {
-            List<PricingRules.IPricingRule> pricingRules = new List<PricingRules.IPricingRule>();
-            pricingRules.Add(new PricingRules.XForN('A',3, 1.30M));
-            pricingRules.Add(new PricingRules.XForN('B',2, 0.45M));
-            pricingRules.Add(new PricingRules.BasePricingRule('C'));
-            pricingRules.Add(new PricingRules.BasePricingRule('D'));
-            pricingRules.Add(new PricingRules.BasePricingRule('E'));
+            List<IPricingRule> pricingRules = new List<IPricingRule>();
+            pricingRules.Add(new XForN('A', 3, 1.30M));
+            pricingRules.Add(new XForN('B', 2, 0.45M));
+            pricingRules.Add(new BasePricingRule('C'));
+            pricingRules.Add(new BasePricingRule('D'));
+            pricingRules.Add(new BasePricingRule('E'));
+
 
             ICheckOut checkOut = new CheckOut(pricingRules);
-            checkOut.Scan("CDBAE"); 
+            checkOut = new CheckOut(pricingRules);
 
-            Console.WriteLine("The total for CDBA is: {0}", checkOut.Total().ToString("c2"));
-
-            Console.WriteLine();
-            Console.WriteLine(checkOut.Receipt());
-
-            checkOut.Scan("DABABA");  //should be 1.90
-            Console.WriteLine("The total for DABABA is: {0}", checkOut.Total().ToString("c2"));
-
-            Console.WriteLine();
-            Console.WriteLine(checkOut.Receipt());
+            Console.WriteLine("Scan ABAB:  {0}", checkOut.Scan("ABAB"));
 
             Console.ReadKey();
         }

@@ -15,14 +15,11 @@ namespace CheckoutKata9.PricingRules
 
         public char ApplyToSKU { get; private set; }
 
-        public virtual void CalculatePrice(List<IItem> baggedItems)
+        public virtual decimal SubTotal(List<IItem> baggedItems, decimal normalPrice)
         {
-            baggedItems.Where(item => item.Product.SKU == ApplyToSKU)
-                .ToList()
-                .ForEach(item => {
-                    item.UnitTotal = (item.Product.UnitPrice * item.Product.UnitQuantity);
-                    item.PricingRule = this.ToString();
-                });
+            int countOfItems = baggedItems.Count(g => g.Product.SKU == this.ApplyToSKU);
+
+            return countOfItems * normalPrice;
         }
 
         public override string ToString()

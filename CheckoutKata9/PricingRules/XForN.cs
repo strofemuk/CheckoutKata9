@@ -6,35 +6,27 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9.PricingRules
 {
-    public class XForN : BasePricingRule, IPricingRule
+    public class XForN : IPricingRule
     {
         public XForN(char applyToSKU, int quantity, decimal specialPrice) 
-            : base(applyToSKU)
         {
             Quantity = quantity;
             SpecialPrice = specialPrice;
         }
 
+        public char ApplyToSKU { get; private set; }
+
         public int Quantity { get; private set; }
         public decimal SpecialPrice { get; private set; }
         
-        public override void CalculatePrice(List<IItem> baggedItems)
+        public Decimal SubTotal(List<IItem> baggedItems, decimal normalPrice)
         {
             int countOfItems = baggedItems.Count(g => g.Product.SKU == this.ApplyToSKU);
 
-            if (countOfItems >= Quantity)
-            {
-                baggedItems.Where(inBag => inBag.Product.SKU == this.ApplyToSKU)
-                    .ToList()
-                    .ForEach(item => {
-                        item.UnitTotal = (this.SpecialPrice / this.Quantity);
-                        item.PricingRule = this.ToString();
-                    });
-            }
-            else
-            {
-                base.CalculatePrice(baggedItems);
-            }
+            int countOfSpecialPricing = countOfItems / Quantity;
+            int countOfNormalPricing = countOfItems % Quantity;
+
+            return (countOfSpecialPricing * SpecialPrice) + (countOfNormalPricing * normalPrice);
         }
 
         public override string ToString()
