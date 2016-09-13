@@ -10,6 +10,7 @@ namespace CheckoutKata9.PricingRules
     {
         public XForN(char applyToSKU, int quantity, decimal specialPrice) 
         {
+            ApplyToSKU = applyToSKU;
             Quantity = quantity;
             SpecialPrice = specialPrice;
         }

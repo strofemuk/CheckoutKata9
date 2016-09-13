@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9
 {
-    public class BaggedItem : CheckoutKata9.IItem
+    public class BaggedItem : IItem
     {
         public Product Product { get; set; }
         public decimal UnitTotal { get; set; }
-        public string PricingRuleDescription { get; set; }
     }
 }

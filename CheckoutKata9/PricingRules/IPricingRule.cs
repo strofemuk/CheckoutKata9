@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace CheckoutKata9.PricingRules
 {
     public interface IPricingRule

@@ -22,7 +22,7 @@ namespace CheckoutKata9
             ICheckOut checkOut = new CheckOut(pricingRules);
             checkOut = new CheckOut(pricingRules);
 
-            Console.WriteLine("Scan ABAB:  {0}", checkOut.Scan("ABAB"));
+            Console.WriteLine("Scanning ABAB.  Total is: " +  checkOut.Scan("ABAB").ToString());
 
             Console.ReadKey();
         }

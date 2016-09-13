@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9.PricingRules
 {
-    public class BasePricingRule : PricingRules.IPricingRule
+    public class BasePricingRule : IPricingRule
     {
         public BasePricingRule(char applyToSKU)
         {
