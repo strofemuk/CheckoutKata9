@@ -7,6 +7,6 @@ namespace CheckoutKata9
         System.Collections.Generic.List<PricingRules.IPricingRule> PricingRules { get; }
         void Scan(char sku);
         decimal Scan(string skus);
-        decimal Total();
+        decimal Total(); 
     }
 }
